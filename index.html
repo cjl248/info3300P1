@@ -94,15 +94,25 @@ var Summer = svg.append("text")
     .attr("fill", "yellow");  
     
 
-var totalRiders;
+var bikeData;
     
+<<<<<<< HEAD
 d3.json("final_data.json", function(error, Total, Date, Costumers, Subscribers) {
     totalRiders = Total;
     date = Date;
     costumers = Costumers;
     subscribers = Subscribers;
+=======
+d3.json("final.json", function(error, data) {
     
-    //for (var j=0; j<totalRiders.length; j++) {
+    bikeData = data;
+    
+    var date = bikeData.Date;
+    var customers = bikeData.Customers;
+    var totalRiders = bikeData.Total;
+    var subscribers = bikeData.Subscribers;
+>>>>>>> 467a147e0e0ad4aa596379aba99550096b351e57
+    
 
 //create arc to represent the bar for each day's bike usage
 var arc = d3.svg.arc()
@@ -123,7 +133,6 @@ var path = svg.selectAll("path")
     //.style("fill", "red");
     //uncomment below once data is in
     .style("fill", function(d) {return d.color});
-    //}
 });
 
 </script>
