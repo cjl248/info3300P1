@@ -25,13 +25,14 @@ previous_date = previous_date[0:cut]
 
 #generate weather data first, then search it for each output
 temp_dict={}
-with open("data/properties_weather.json", 'r') as f:
+with open("data/weather.json", 'r') as f:
 	for line in f:
 		if (line[-1]==" "):
 			line = line.strip("\n")
 			json_weather_block+=line
 		else:
 			json_weather_block+=line.strip("\n")
+	#print json_weather_block
 weather_data=json.loads(json_weather_block)
 #make count for each day (new array?)
 for w_item in weather_data:
@@ -123,8 +124,62 @@ print len(final_output)
 #loop thru final_output and create new output
 end_result = []
 f=open("final.json",'w')
+
+spring = []
+summer = []
+fall = []
+winter = []
 for d in final_output:
-	text = json.dumps(d)
+	done_json={}
+	done_json["Date"] = d["date"]
+	season = d["season"]
+	temp = temp_dict[done_json["Date"]]
+	if (season == "Spring"):
+		spring.append(temp)
+		if (temp>=52 and temp<57):
+			done_json["Color"] = "#84AF47"
+		elif (temp>=57 and temp<63):
+			done_json["Color"] = "#5B8C16"
+		elif (temp>=63 and temp<69):
+			done_json["Color"] = "#517C14"
+		elif (temp>=69 and temp<=75):
+			done_json["Color"] = "#3D5D0F"
+	elif (season == "Summer"):
+		summer.append(temp)
+		if (temp>=59 and temp<63):
+			done_json["Color"] = "#FFFF99"
+		elif (temp>=63 and temp<67):
+			done_json["Color"] = "#FFFF66"
+		elif (temp>=67 and temp<71):
+			done_json["Color"] = "#FFFF00"
+		elif (temp>=71 and temp<=75):
+			done_json["Color"] = "#FFCC00"
+	elif (season == "Fall"):
+		fall.append(temp)
+		if (temp>=53 and temp<58):
+			done_json["Color"] = "#FF4719"
+		elif (temp>=58 and temp<63):
+			done_json["Color"] = "#FF3300"
+		elif (temp>=63 and temp<68):
+			done_json["Color"] = "#CC2900"
+		elif (temp>=68 and temp<=73):
+			done_json["Color"] = "#991F00"
+	elif (season == "Winter"):
+		winter.append(temp)
+		if (temp>=42 and temp<46):
+			done_json["Color"] = "#5C85D6"
+		elif (temp>=46 and temp<51):
+			done_json["Color"] = "#3366CC"
+		elif (temp>=51 and temp<56):
+			done_json["Color"] = "#24478F"
+		elif (temp>=56 and temp<=61):
+			done_json["Color"] = "#142952"
+
+	done_json["Subscribers"] = d["subscribers"]
+	done_json["Customers"] = d["customers"]
+	done_json["Total"] = d["subscribers"] + d["customers"]
+	#print done_json
+	text = json.dumps(done_json)
 	f.write(text + ",\n")
 	#print d
 	#calculate total here
@@ -133,45 +188,15 @@ for d in final_output:
 	#look up date's temp in temp_dict
 
 	#find max and min temp for each season
-	temp_spring_max = 0
-	temp_spring_min = 0
-	temp_summer_max = 0
-	temp_summer_min = 0
-	temp_fall_max = 0
-	temp_fall_min = 0
-	temp_winter_max = 0
-	temp_winter_min = 0
-	if (d["season"] == "Spring"):
-		if (temp > temp_spring_max):
-			temp_spring_max = temp
-		if (temp < temp_spring_min):
-			temp_spring_min = temp
-	if (d["season"] == "Summer"):
-		if (temp > temp_summer_max):
-			temp_summer_max = temp
-		if (temp < temp_summer_min):
-			temp_summer_min = temp
-	if (d["season"] == "Fall"):
-		if (temp > temp_fall_max):
-			temp_fall_max = temp
-		if (temp < temp_fall_min):
-			temp_fall_min = temp
-	if (d["season"] == "Winter"):
-		if (temp > temp_winter_max):
-			temp_winter_max = temp
-		if (temp < temp_winter_min):
-			temp_winter_min = temp
+
 
 f.close()
 
-print "temp_spring_max = " + str(temp_spring_max)
-print "temp_spring_min = " + str(temp_spring_min)
-print "temp_summer_max = " + str(temp_summer_max)
-print "temp_summer_min = " + str(temp_summer_min)
-print "temp_fall_max = " + str(temp_fall_max)
-print "temp_fall_min = " + str(temp_fall_min)
-print "temp_winter_max = " + str(temp_winter_max)
-print "temp_winter_min = " + str(temp_winter_min)
-
-
-
+# print "temp_spring_max = " + str(max(spring))
+# print "temp_spring_min = " + str(min(spring))
+# print "temp_summer_max = " + str(max(summer))
+# print "temp_summer_min = " + str(min(summer))
+# print "temp_fall_max = " + str(max(fall))
+# print "temp_fall_min = " + str(min(fall))
+# print "temp_winter_max = " + str(max(winter))
+# print "temp_winter_min = " + str(min(winter))
