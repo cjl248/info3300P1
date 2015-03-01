@@ -123,7 +123,7 @@ print len(final_output)
 
 #loop thru final_output and create new output
 end_result = []
-f=open("final.json",'w')
+f=open("final_data.json",'w')
 
 spring = []
 summer = []
