@@ -125,7 +125,7 @@ end_result = []
 f=open("final.json",'w')
 for d in final_output:
 	text = json.dumps(d)
-	f.write(text)
+	f.write(text + ",\n")
 	#print d
 	#calculate total here
 	#d["temp"] = temp_dict[d["date"]]
