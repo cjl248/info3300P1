@@ -1,0 +1,87 @@
+<html>
+<head>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <!-- Load the d3 library. -->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <style>
+        /* put a border around the svg element so we can see the coordinate system better. */
+        body { font-family: "Open Sans"; } div { margin: 30px; }
+        svg { border: solid black 1px; }
+        /* The default styles for axis elements stink. What should they be? */
+        .axis path {}
+        .axis line {}
+    </style>
+</head>
+    
+<body>
+
+<h3>Bycycle Data for the San Fransisco Bay Area Bike Share</h3>
+
+<!-- The SVG element will go in here -->
+<div id="canvas"></div>
+
+<script>
+var width = 960, height = 500;
+	
+var svg = d3.select("#canvas").append("svg").attr("width", width).attr("height", height);
+    
+var tempData;
+    
+var maxTemp = 0;
+    
+d3.json("data/properties_weather.json", function(error, Mean_Temperature_F) {
+    
+	tempData = Mean_Temperature_F;
+    console.log(tempData[0]);
+    
+    //maxTemp = function(d) {
+        //for (var i = 0; i< d.length; i++)   
+            //if (maxTemp < d[i].Mean_Temperature_F) {
+                //maxTemp = d[i].Mean_Temperature_F;
+            //}
+    //}
+    
+    for (var i = 0; i< tempData.length; i++) {
+        if (maxTemp < tempData[i].Mean_Temperature_F) {
+            maxTemp = tempData[i].Mean_Temperature_F;
+        }
+    }
+    
+    
+    
+    //var xScale = d3.scale.linear().domain([0,1]).range([0,200]);
+    //var yScale = d3.scale.linear().domain([0,1]).range([200,0])
+    
+    //var circles = svg.selectAll("circle").data(dateData).enter().append("circle");
+    
+    //circles.attr("r", 6)
+    //.attr("cx", function(d) { 
+        //return xScale(d.x);
+    //})
+    //.attr("cy", function(d) { 
+        //return yScale(d.y);
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
