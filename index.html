@@ -36,7 +36,7 @@ var onedayangle = 2*Math.PI/365.0;
 var halfdayangle= Math.PI/365.0;
 var total=100;
 
-var jsonData = [{"total" : 40},{"total" : 100},{"total" : 60},{"total" : 20},{"total" : 90} ];
+//var jsonData = [{"total" : 40},{"total" : 100},{"total" : 60},{"total" : 20},{"total" : 90} ];
 
 var svg = d3.select("#canvas").append("svg")
     .attr("width", width)
@@ -61,7 +61,7 @@ var fall = svg.append("text")
     .attr("y", -300)
     .text("Fall")
     .attr("text-anchor", "middle")
-    .attr("fill", "black");    
+    .attr("fill", "orange");    
 
 //bottom right label
 var winter = svg.append("text")
@@ -71,7 +71,7 @@ var winter = svg.append("text")
     .attr("y", 300)
     .text("Winter")
     .attr("text-anchor", "middle")
-    .attr("fill", "black"); 
+    .attr("fill", "blue"); 
 
 //bottom left label
 var spring = svg.append("text")
@@ -81,7 +81,7 @@ var spring = svg.append("text")
     .attr("y", 300)
     .text("Spring")
     .attr("text-anchor", "middle")
-    .attr("fill", "black"); 
+    .attr("fill", "green"); 
 
 //top left label
 var Summer = svg.append("text")
@@ -91,26 +91,40 @@ var Summer = svg.append("text")
     .attr("y", -300)
     .text("Summer")
     .attr("text-anchor", "middle")
-    .attr("fill", "black");             
+    .attr("fill", "yellow");  
+    
+
+var totalRiders;
+    
+d3.json("final.json", function(error, Total, Date, Costumers, Subscribers) {
+    totalRiders = Total;
+    date = Date;
+    costumers = Costumers;
+    subscribers = Subscribers;
+    
+    //for (var j=0; j<totalRiders.length; j++) {
 
 //create arc to represent the bar for each day's bike usage
 var arc = d3.svg.arc()
     .startAngle(function(d, i) {return (i*onedayangle)-halfdayangle;})
     .endAngle(function(d, i) {return (i*onedayangle)+halfdayangle;})
     .innerRadius(function(d) {return radius;})
-    .outerRadius(function(d) {return d.total+radius;});
-
+    .outerRadius(function(d) {return d.totalRiders+radius;});
+ 
+ 
 //create the actual bars from data
 var path = svg.selectAll("path")
-    .data(jsonData)
+    .data(totalRiders)
     .enter()
     .append("path")
     .attr("d", arc)
     // .style("stroke", "black")
     //comment below once data is in
-    .style("fill", "red");
+    //.style("fill", "red");
     //uncomment below once data is in
-    //.style("fill", function(d) {return d.color});
+    .style("fill", function(d) {return d.color});
+    //}
+});
 
 </script>
 
@@ -158,6 +172,7 @@ var colors = {
       .attr("text-anchor", "middle")
       .text(function(d) { return d.key; });
 }
+    
 
 
 
