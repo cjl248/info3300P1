@@ -1,4 +1,4 @@
-{"Date": "8/29/13", "Color": "#517C14", "Customers": 287, "Total": 749, "Subscribers": 462},
+[{"Date": "8/29/13", "Color": "#517C14", "Customers": 287, "Total": 749, "Subscribers": 462},
 {"Date": "8/30/13", "Color": "#FFFF00", "Customers": 407, "Total": 714, "Subscribers": 307},
 {"Date": "8/31/13", "Color": "#FFFF66", "Customers": 480, "Total": 640, "Subscribers": 160},
 {"Date": "9/1/13", "Color": "#CC2900", "Customers": 584, "Total": 706, "Subscribers": 122},
@@ -365,4 +365,4 @@
 {"Date": "3/4/14", "Color": "#5B8C16", "Customers": 48, "Total": 944, "Subscribers": 896},
 {"Date": "3/3/14", "Color": "#84AF47", "Customers": 40, "Total": 746, "Subscribers": 706},
 {"Date": "3/2/14", "Color": "#5B8C16", "Customers": 67, "Total": 208, "Subscribers": 141},
-{"Date": "3/1/14", "Color": "#5B8C16", "Customers": 125, "Total": 317, "Subscribers": 192},
+{"Date": "3/1/14", "Color": "#5B8C16", "Customers": 125, "Total": 317, "Subscribers": 192}]
