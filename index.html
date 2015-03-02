@@ -8,7 +8,7 @@
         body { font-family: "Open Sans"; background-color: beige; } 
         div { margin: 30px; }
         h1, h2, { color: black; }
-        /*svg { border: solid black 1px;}*/
+        /*svg { border: solid black 1px; padding: none;}*/
         /* The default styles for axis elements stink. What should they be? */
         .axis path {}
         .axis line {}
@@ -16,10 +16,9 @@
 </head>
 
  <!-- Things to do: 
- 1) Change jsonData to read actual data file
- 2) Uncomment color in path declaration once data is inputted and comment old color assignment
- 3) Create Legend. You can ignore my code and here is a helpful link: http://stackoverflow.com/questions/13573771/adding-a-chart-legend-in-d3
- 4) Design Doc-->
+ 1) Bring axis numbers to the front
+ 2) Remove extra svg padding
+ 3) Finish design Doc-->
     
 <body>
 
@@ -211,7 +210,6 @@ d3.json("ordered_data.json", function(error, data) {
     
 });
 </script>
-
-
+    <h3 align="center" style = "font-style: italic;">Higher color sturation indicates higher temperatures while lower saturation indicates lower temperatures.</h3>
 </body>
 </html>
