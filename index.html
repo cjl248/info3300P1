@@ -6,8 +6,10 @@
     <script src="http://d3js.org/topojson.v1.min.js"></script>
     <style>
         /* put a border around the svg element so we can see the coordinate system better. */
-        body { font-family: "Open Sans"; } div { margin: 30px; }
-        /* svg { border: solid black 1px; }*/
+        body { font-family: "Open Sans"; } 
+        div { margin: 30px; }
+        /*circle {fill= }*/
+        /*svg { border: solid black 1px; /*height: 75vh; width: 75vw*/ }*/
         /* The default styles for axis elements stink. What should they be? */
         .axis path {}
         .axis line {}
@@ -25,13 +27,13 @@
 <h3 style="font-family: Times New Roman" align="center">San Fransisco Bay Area Bike Share Usage</h3>
 <h4 style="font-family: Times New Roman" align="center">August 2013 - August 2014</h4>
 
-<div id="canvas"></div>
+<div id="canvas" align="center"></div>
 
 <script>
 // Dimensions of sunburst
-var width = 960;
-var height = 1000;
-var radius = Math.min(width, height) / 5;
+var width = 800;
+var height = 700;
+var radius = Math.min(width, height) / 4;
 var onedayangle = 2*Math.PI/365.0;
 var halfdayangle= Math.PI/365.0;
 var total=100;
@@ -44,14 +46,32 @@ var svg = d3.select("#canvas").append("svg")
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height * .52 + ")");
 //center the circle to the new origin (0,0)
+    
+//pattern fill for circle
+var pattern = svg
+    .append("defs")
+
+    .append("pattern").attr("id", "pattern")
+    .attr("patternUnits", "objectBoundingBox").attr("height","1").attr("width","1")
+    .attr("viewBox", "0 0 1 1").attr("preserveAspectRatio","xMidYMid slice")
+
+    .append("image")
+    .attr("height","1").attr("width","1")
+    .attr("preserveAspectRatio","xMidYMid slice")
+    .attr("xlink:href", "biker.jpg")
 
 //center circle
-var circle = svg.append("circle")
+var circle = svg
+    .append("circle")
+    .attr("id", "circ")
     .attr("cx", 0)
     .attr("cy", 0)
     .attr("r", radius)
-    .style("fill", "beige")
-    .style("fill-opacity", 0.5);
+    .attr("fill", "url(#pattern)")
+    .style("fill-opacity", 0.9)
+    .style("border", "");
+    
+/*document.getElementById("circle").setAttribute("fill", "src='biker.jpg'");*/
 
 //top right label
 var fall = svg.append("text")

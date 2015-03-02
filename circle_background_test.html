@@ -1,0 +1,28 @@
+<html>
+    </head>
+<style>
+    svg { border: solid black 1px; }
+</style>    
+    </head>
+
+<!--
+<svg width="500" height="500">
+  <defs>
+    <pattern x="300" y="300" id="image" patternUnits="userSpaceOnUse" height="600" width="600">
+      <image x="0" y="70" height="600" width="600" xlink:href="biker.jpg"></image>
+    </pattern>
+  </defs>
+  <circle id='top' cx="150" cy="150" r="120" fill="url(#image)"stroke="black" />
+</svg>
+-->
+
+<svg width="500px" height="500px">
+  <defs>
+    <pattern id="pattern" patternUnits="objectBoundingBox" height="1" width="1" viewBox="0 0 1 1" preserveAspectRatio="xMidYMid slice" >
+      <image height="1" width="1" xlink:href="biker.jpg" preserveAspectRatio="xMidYMid slice" />
+    </pattern>
+  </defs>
+    
+  <circle id='circ' cx="250" cy="250" r="100" fill="url(#pattern)"stroke="black" />
+</svg>
+</html>
