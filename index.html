@@ -5,9 +5,9 @@
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <style>
         /* put a border around the svg element so we can see the coordinate system better. */
-        body { font-family: "Open Sans"; } 
+        body { font-family: "Open Sans"; background-color: beige; } 
         div { margin: 30px; }
-        h2, h3 { color: black; }
+        h1, h2, { color: black; }
         /*svg { border: solid black 1px;}*/
         /* The default styles for axis elements stink. What should they be? */
         .axis path {}
@@ -23,8 +23,8 @@
     
 <body>
 
-<h2 style="font-family: 'Slabo 27px' serif'" align="center">San Fransisco Bay Area Bike Share Usage</h2>
-<h3 style="font-family: 'Slabo 27px' serif'" align="center">August 2013 - August 2014</h3>
+<h1 style="font-family: 'Slabo 27px' serif'" align="center">San Fransisco Bay Area Bike Share Usage</h1>
+<h2 style="font-family: 'Slabo 27px' serif'" align="center">August 2013 - August 2014</h2>
 
 <div id="canvas" align="center"></div>
 
@@ -167,67 +167,47 @@ d3.json("ordered_data.json", function(error, data) {
     .attr("stroke","black")
     .attr("stroke-width",".5");
     
+    var circleTick5_text = svg.append("text").attr("id","circleTick5_text")
+    .attr("x","0").attr("y","-400")
+    .attr("height","50").attr("width","50")
+    .attr("fill", "black")
+    //.style("z-index","100")
+    //.style("font-size", "40px")
+    //.style("stroke-width", "3px")
+    //.attr("style","font-size: 30px")
+    //.attr("style", "stroke-width: 3px")
+    .attr("text-anchor","middle")
+    .attr("alignment-baseline","middle");
+    //.textContent = "5";
+    //circleTick5_text.textContent = "tester"
+    document.getElementById("circleTick5_text").textContent = tickIncrements[4];
     
-    
- 
-/* ATTEMP TO CREATE CIRCULAR TICK MARKS USING http://kreese.net/blog/2012/08/26/d3-js-creating-a-polar-area-diagram-radial-bar-chart/
-
-    //padding
-    var padding = {
-        top: 25,
-        right: 25,
-        bottom: 25,
-        left: 25
-    };
-
-    circle constraining dimension
-    var heightCircleConstraint = height - padding.top - padding.bottom;
-    var widthCircleConstraint = width - padding.left - padding.right;
-    var circleConstraint = d3.min([heightCircleConstraint, widthCircleConstraint]);
-    
-//function for calculating the radius of a point from the center circle's radius
-    var axisRadius = d3.scale.linear().domain([0, maxHeight])
-        .range([0, (circleConstraint / 2)]);
-    var radiusLength = radius + axisRadius(maxHeight);
-    
-//adding circular ticks
-    svg.selectAll("#circle-ticks").remove();
-    
-    var circleAxes = svg.selectAll("#circle-ticks")
-      .data(maxHeight/5)
-      .enter().append("g")
-      .attr("id", "circle-ticks");
-    
-    circleAxes.append("circle")
-      .attr("r", function (d, i) { return radius(d); })
-      .attr("id", "circle-tick")
-      .style("stroke", "black")
-      .style("fill", "none");
- 
-    circleAxes.append("text")
-      .attr("text-anchor", "left")
-      .attr("dy", function (d) { return -1 * radius(d); })
-      .text("TEST");
-*/
+    var circleTick5_text = svg.append("text").attr("id","circleTick4_text")
+    .attr("x","0").attr("y","-370")
+    .attr("height","50").attr("width","50")
+    .attr("fill", "black")
+    .attr("text-anchor","middle")
+    .attr("alignment-baseline","middle");
+    document.getElementById("circleTick4_text").textContent = tickIncrements[3];
     
 
-//create arc to represent the bar for each day's bike usage
-var arc = d3.svg.arc()
-    .startAngle(function(d, i) {return (i*onedayangle)-halfdayangle;})
-    .endAngle(function(d, i) {return (i*onedayangle)+halfdayangle;})
-    .innerRadius(function(d) {return radius;})
-    .outerRadius(function(d) {return (.1*d.Total)+radius;});
+    //create arc to represent the bar for each day's bike usage
+    var arc = d3.svg.arc()
+        .startAngle(function(d, i) {return (i*onedayangle)-halfdayangle;})
+        .endAngle(function(d, i) {return (i*onedayangle)+halfdayangle;})
+        .innerRadius(function(d) {return radius;})
+        .outerRadius(function(d) {return (.1*d.Total)+radius;});
  
  
-//create the actual bars from data
-var path = svg.selectAll("path")
-    .data(bikeData)
-    .enter()
-    .append("path")
-    .attr("d", arc)
-    .style("stroke", "black")
-    .attr("stroke-width",".5")
-    .style("fill", function(d) {return d.Color});
+    //create the actual bars from data
+    var path = svg.selectAll("path")
+        .data(bikeData)
+        .enter()
+        .append("path")
+        .attr("d", arc)
+        .style("stroke", "black")
+        .attr("stroke-width",".5")
+        .style("fill", function(d) {return d.Color});
     
 });
 </script>
