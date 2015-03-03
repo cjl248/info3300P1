@@ -129,7 +129,6 @@ d3.json("seasons_labelled.json", function(error, data) {
     var path = svg.selectAll("path")
         .data(bikeData)
         .enter()
-    
         .append("g")
         .attr("id",function (d) {
             if(d.season === "Fall") {
