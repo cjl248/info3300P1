@@ -1,0 +1,8 @@
+with open("pordered_data.json", 'r') as f:
+	for line in f:
+		if (line[-1]==" "):
+			line = line.strip("\n")
+			json_block+=line
+		else:
+			json_block+=line.strip("\n")
+data=json.loads(json_block)
