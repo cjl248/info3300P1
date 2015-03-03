@@ -4,7 +4,7 @@
     <!-- Load the d3 library. -->
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <style>
-        body { font-family: "Open Sans"; background-color: #DEC790; } 
+        body { font-family: "Open Sans"; background-color: #C7D9F0; } 
         div { margin: 30px; }
         h1, h2, { color: red; }
     </style>
@@ -99,7 +99,7 @@ var Summer = svg.append("text")
 
 var bikeData;
     
-d3.json("seasons_labelled.json", function(error, data) {
+d3.json("ordered_data.json", function(error, data) {
     bikeData = data;
     
     // Create arc to represent the bar for each day's bike usage
@@ -107,22 +107,7 @@ d3.json("seasons_labelled.json", function(error, data) {
         .startAngle(function(d, i) {return (i*onedayangle)-halfdayangle;})
         .endAngle(function(d, i) {return (i*onedayangle)+halfdayangle;})
         .innerRadius(function(d) {return radius;})
-        .outerRadius(function(d) {
-            if (d.season === "Fall") {
-                return (.1*d.Total)+radius
-            }
-            if (d.season === "Winter") {
-                return (.1*d.Total)+radius
-            }
-            if (d.season === "Spring") {
-                return (.1*d.Total)+radius
-            }
-            if (d.season === "Summer") {
-                return (.1*d.Total)+radius
-            }
-            
-            
-        });
+        .outerRadius(function(d) { return (.1*d.Total)+radius });
  
  
     // Create the actual bars from data
@@ -130,53 +115,11 @@ d3.json("seasons_labelled.json", function(error, data) {
         .data(bikeData)
         .enter()
         .append("g")
-        .attr("id",function (d) {
-            if(d.season === "Fall") {
-                return "fallG"
-            }
-            if(d.season === "Winter") {
-                return "winterG"
-            }
-            if(d.season === "Spring") {
-                return "summerG"
-            }
-            if(d.season === "Summer") {
-                return "springG"
-            }
-        })
-        .attr("transform", function (d) {
-            if (d.season === "Fall") {
-                return "translate(0, 0)";
-            }
-            if (d.season === "Winter") {
-                return "translate(0, 0)";
-            }
-            if (d.season === "Spring") {
-                return "translate(0, 0)";
-            }
-            if (d.season === "Summer") {
-                return "translate(0, 0)";
-            }
-        })
         .append("path")
         .attr("d", arc)
         .style("stroke", "black")
         .attr("stroke-width",".5")
-        .style("fill", function(d) {
-            if (d.season === "Fall") {
-                return d.Color
-            }
-            if (d.season === "Winter") {
-                return d.Color
-            }
-            if (d.season === "Spring") {
-                return d.Color
-            }
-            if (d.season === "Summer") {
-                return d.Color
-            }
-
-        });
+        .style("fill", function(d) { return d.Color });
     
 
     // Find height axis max
