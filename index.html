@@ -4,62 +4,60 @@
     <!-- Load the d3 library. -->
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <style>
-        /* put a border around the svg element so we can see the coordinate system better. */
-        body { font-family: "Open Sans"; background-color: beige; } 
+        body { font-family: "Open Sans"; background-color: #C2DAE7; } 
         div { margin: 30px; }
-        h1, h2, { color: black; }
+        h1, h2, { color: #D6AD33; }
         /*svg { border: solid black 1px; padding: none;}*/
         /* The default styles for axis elements stink. What should they be? */
-        .axis path {}
-        .axis line {}
+        /*.axis path {}
+        .axis line {}*/
     </style>
 </head>
 
  <!-- Things to do: 
  1) Bring axis numbers to the front
  2) Remove extra svg padding
- 3) Finish design Doc-->
+ 3) Finish design Doc
+ 4) Add separations between seasons
+ 5) normalize to 100%-->
     
 <body>
 
-<h1 style="font-family: 'Slabo 27px' serif'" align="center">San Fransisco Bay Area Bike Share Usage</h1>
-<h2 style="font-family: 'Slabo 27px' serif'" align="center">August 2013 - August 2014</h2>
+    <h1 style="font-family: 'Slabo 27px' serif'" align="center">San Fransisco Bay Area Bike Share Ridership</h1>
+    <h2 style="font-family: 'Slabo 27px' serif'" align="center">Number of Bikers Per Day: August 2013 - August 2014</h2>
+    <h4 align="center" style = "font-style: italic;">Higher saturation indicates higher temperatures while lower saturation indicates lower temperatures.</h4>
 
-<div id="canvas" align="center"></div>
+    <div id="canvas" align="center"></div>
 
 <script>
 // Dimensions of sunburst
 var width = 1000;
-var height = 1000;
+var height = 800;
 var radius = Math.min(width, height) / 4;
 var onedayangle = 2*Math.PI/365.0;
 var halfdayangle= Math.PI/365.0;
 var total=100;
 
-//var jsonData = [{"total" : 40},{"total" : 100},{"total" : 60},{"total" : 20},{"total" : 90} ];
-
+// Creating svg and centering g elements
 var svg = d3.select("#canvas").append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("display","block")
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height * .52 + ")");
-//center the circle to the new origin (0,0)
     
-//pattern fill for circle
+// Pattern fill for main circle
 var pattern = svg
     .append("defs")
-
     .append("pattern").attr("id", "pattern")
     .attr("patternUnits", "objectBoundingBox").attr("height","1").attr("width","1")
     .attr("viewBox", "0 0 1 1").attr("preserveAspectRatio","xMidYMid slice")
-
     .append("image")
     .attr("height","1").attr("width","1")
     .attr("preserveAspectRatio","xMidYMid slice")
     .attr("xlink:href", "biker.jpg")
 
-//center circle
+// Center circle
 var circle = svg
     .append("circle")
     .attr("id", "circ")
@@ -68,9 +66,8 @@ var circle = svg
     .attr("r", radius)
     .attr("fill", "url(#pattern)")
     .style("fill-opacity", 0.9)
-    .style("border", "");
 
-//top right label
+// Top right label
 var fall = svg.append("text")
     .style("font-family", "'Slabo 27px' serif'")
     .style("font-size","40px")
@@ -78,9 +75,9 @@ var fall = svg.append("text")
     .attr("y", -350)
     .text("Fall")
     .attr("text-anchor", "middle")
-    .attr("fill", "red");    
+    .attr("fill", "red");
 
-//bottom right label
+// Bottom right label
 var winter = svg.append("text")
     .style("font-size", "40px")
     .style("font-family", "'Slabo 27px' serif'")
@@ -90,7 +87,7 @@ var winter = svg.append("text")
     .attr("text-anchor", "middle")
     .attr("fill", "blue"); 
 
-//bottom left label
+// Bottom left label
 var Summer = svg.append("text")
     .style("font-size", "40px")
     .style("font-family", "'Slabo 27px' serif'")
@@ -100,7 +97,7 @@ var Summer = svg.append("text")
     .attr("text-anchor", "middle")
     .attr("fill", "green");
 
-//top left label
+// Top left label
 var Spring = svg.append("text")
     .style("font-size", "40px")
     .style("font-family", "'Slabo 27px' serif'")
@@ -108,29 +105,110 @@ var Spring = svg.append("text")
     .attr("y", -350)
     .text("Spring")
     .attr("text-anchor", "middle")
-    .attr("fill", "#FFCC00");
+    .attr("fill", "yellow");
     
 
 var bikeData;
     
-d3.json("ordered_data.json", function(error, data) {
-    bikeData = data;    
+d3.json("seasons_labelled.json", function(error, data) {
+    bikeData = data;
+    
+    // Create arc to represent the bar for each day's bike usage
+    var arc = d3.svg.arc()
+        .startAngle(function(d, i) {return (i*onedayangle)-halfdayangle;})
+        .endAngle(function(d, i) {return (i*onedayangle)+halfdayangle;})
+        .innerRadius(function(d) {return radius;})
+        .outerRadius(function(d) {
+            if (d.season === "Fall") {
+                return (.1*d.Total)+radius
+            }
+            if (d.season === "Winter") {
+                return (.1*d.Total)+radius
+            }
+            if (d.season === "Summer") {
+                return (.1*d.Total)+radius
+            }
+            if (d.season === "Spring") {
+                return (.1*d.Total)+radius
+            }
+            
+            
+        });
+ 
+ 
+    // Create the actual bars from data
+    var path = svg.selectAll("path")
+        .data(bikeData)
+        .enter()
+    
+        .append("g")
+        .attr("id",function (d) {
+            if(d.season === "Fall") {
+                return "fallG"
+            }
+            if(d.season === "Winter") {
+                return "winterG"
+            }
+            if(d.season === "Summer") {
+                return "summerG"
+            }
+            if(d.season === "Spring") {
+                return "springG"
+            }
+        })
+        .attr("transform", function (d) {
+            if (d.season === "Fall") {
+                return "translate(0, 0)";
+            }
+            if (d.season === "Winter") {
+                return "translate(0, 0)";
+            }
+            if (d.season === "Summer") {
+                return "translate(0, 0)";
+            }
+            if (d.season === "Spring") {
+                return "translate(0, 0)";
+            }
+        })
+        .append("path")
+        .attr("d", arc)
+        .style("stroke", "black")
+        .attr("stroke-width",".5")
+        .style("fill", function(d) {
+            if (d.season === "Fall") {
+                return d.Color
+                //document.getElementById("fallG").setAttribute("transform","translate(50, -50)");
+            }
+            if (d.season === "Winter") {
+                return d.Color
+                //document.getElementById("fallG").setAttribute("transform","translate(50, -50)");
+            }
+            if (d.season === "Summer") {
+                return d.Color
+                //document.getElementById("fallG").setAttribute("transform","translate(50, -50)");
+            }
+            if (d.season === "Spring") {
+                return d.Color
+                //document.getElementById("fallG").setAttribute("transform","translate(50, -50)");
+            }
 
-    //find height axis max
+        });
+    
+
+    // Find height axis max
     var maxHeight = d3.max(bikeData, 
 	   function (d) {
 		  return d.Total;
 	   });
-    // number of ticks
+    // Number of ticks
     var numTicks = 5;
-
+    //fill in tick increment array
     var tickIncrements = [];
     for (var i=0; i<numTicks; i++) {
         tickIncrements[i] = (i+1)*(maxHeight/numTicks);
     }
     
-    //var yScale = d3.scale.linear().domain([0, maxHeight]).range([0, maxHeight]);
-
+    // Circular tick marks
     var circleTick1 = svg.append("circle").attr("id", "circleTick1")
     .attr("cx","0").attr("cy","0")
     .attr("r", (radius+(.1*tickIncrements[0])))
@@ -166,50 +244,57 @@ d3.json("ordered_data.json", function(error, data) {
     .attr("stroke","black")
     .attr("stroke-width",".5");
     
+    // Tick mark text
     var circleTick5_text = svg.append("text").attr("id","circleTick5_text")
-    .attr("x","0").attr("y","-400")
+    .text((tickIncrements[4]/tickIncrements[4])+".0")
+    .attr("x","-10").attr("y","-350")
     .attr("height","50").attr("width","50")
     .attr("fill", "black")
-    //.style("z-index","100")
-    //.style("font-size", "40px")
-    //.style("stroke-width", "3px")
-    //.attr("style","font-size: 30px")
-    //.attr("style", "stroke-width: 3px")
+    .style("font-size", "33px")
+    .style("font-family", "'Slabo 27px' serif'")
     .attr("text-anchor","middle")
     .attr("alignment-baseline","middle");
-    //.textContent = "5";
-    //circleTick5_text.textContent = "tester"
-    document.getElementById("circleTick5_text").textContent = tickIncrements[4];
     
-    var circleTick5_text = svg.append("text").attr("id","circleTick4_text")
-    .attr("x","0").attr("y","-370")
+    var circleTick4_text = svg.append("text").attr("id","circleTick4_text")
+    .text(tickIncrements[3]/tickIncrements[4])
+    .attr("x","-10").attr("y","-320")
     .attr("height","50").attr("width","50")
+    .style("font-size", "30px")
+    .style("font-family", "'Slabo 27px' serif'")
     .attr("fill", "black")
     .attr("text-anchor","middle")
     .attr("alignment-baseline","middle");
-    document.getElementById("circleTick4_text").textContent = tickIncrements[3];
     
-
-    //create arc to represent the bar for each day's bike usage
-    var arc = d3.svg.arc()
-        .startAngle(function(d, i) {return (i*onedayangle)-halfdayangle;})
-        .endAngle(function(d, i) {return (i*onedayangle)+halfdayangle;})
-        .innerRadius(function(d) {return radius;})
-        .outerRadius(function(d) {return (.1*d.Total)+radius;});
- 
- 
-    //create the actual bars from data
-    var path = svg.selectAll("path")
-        .data(bikeData)
-        .enter()
-        .append("path")
-        .attr("d", arc)
-        .style("stroke", "black")
-        .attr("stroke-width",".5")
-        .style("fill", function(d) {return d.Color});
+    var circleTick3_text = svg.append("text").attr("id","circleTick3_text")
+    .text("0.6")
+    .attr("x","-10").attr("y","-290")
+    .attr("height","50").attr("width","50")
+    .style("font-size", "30px")
+    .style("font-family", "'Slabo 27px' serif'")
+    .attr("fill", "black")
+    .attr("text-anchor","middle")
+    .attr("alignment-baseline","middle");
     
+    var circleTick2_text = svg.append("text").attr("id","circleTick2_text")
+    .text(tickIncrements[1]/tickIncrements[4])
+    .attr("x","-10").attr("y","-260")
+    .attr("height","50").attr("width","50")
+    .style("font-size", "30px")
+    .style("font-family", "'Slabo 27px' serif'")
+    .attr("fill", "black")
+    .attr("text-anchor","middle")
+    .attr("alignment-baseline","middle");
+    
+    var circleTick1_text = svg.append("text").attr("id","circleTick1_text")
+    .text(tickIncrements[0]/tickIncrements[4])
+    .attr("x","-10").attr("y","-230")
+    .attr("height","50").attr("width","50")
+    .style("font-size", "30px")
+    .style("font-family", "'Slabo 27px' serif'")
+    .attr("fill", "black")
+    .attr("text-anchor","middle")
+    .attr("alignment-baseline","middle");
 });
 </script>
-    <h3 align="center" style = "font-style: italic;">Higher color sturation indicates higher temperatures while lower saturation indicates lower temperatures.</h3>
 </body>
 </html>

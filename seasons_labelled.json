@@ -1,4 +1,4 @@
-{"Customers": 287, "Color": "#517C14", "season": "Summer", "Subscribers": 462, "Date": "8/29/2013", "Total": 749},
+[{"Customers": 287, "Color": "#517C14", "season": "Summer", "Subscribers": 462, "Date": "8/29/2013", "Total": 749},
 {"Customers": 407, "Color": "#FFFF00", "season": "Summer", "Subscribers": 307, "Date": "8/30/2013", "Total": 714},
 {"Customers": 480, "Color": "#FFFF66", "season": "Summer", "Subscribers": 160, "Date": "8/31/2013", "Total": 640},
 {"Customers": 584, "Color": "#CC2900", "season": "Fall", "Subscribers": 122, "Date": "9/1/2013", "Total": 706},
@@ -363,4 +363,4 @@
 {"Customers": 214, "Color": "#FFFF00", "season": "Summer", "Subscribers": 1299, "Date": "8/26/2014", "Total": 1513},
 {"Customers": 182, "Color": "#FFFF00", "season": "Summer", "Subscribers": 1297, "Date": "8/27/2014", "Total": 1479},
 {"Customers": 126, "Color": "#FFFF00", "season": "Summer", "Subscribers": 1214, "Date": "8/28/2014", "Total": 1340},
-{"Customers": 216, "Color": "#FFFF00", "season": "Summer", "Subscribers": 1036, "Date": "8/29/2014", "Total": 1252}
+{"Customers": 216, "Color": "#FFFF00", "season": "Summer", "Subscribers": 1036, "Date": "8/29/2014", "Total": 1252}]
